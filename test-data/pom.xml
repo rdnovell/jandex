@@ -22,36 +22,13 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.igormaznitsa</groupId>
-                <artifactId>mvn-jlink-wrapper</artifactId>
-                <version>${version.mvn-jlink-wrapper}</version>
-                <executions>
-                    <execution>
-                        <id>download-jdk</id>
-                        <goals>
-                            <goal>cache-jdk</goal>
-                        </goals>
-                        <configuration>
-                            <jdkCachePath>${project.basedir}/jdk-cache</jdkCachePath>
-                            <jdkPathProperty>custom-jdk-path</jdkPathProperty>
-                            <provider>ADOPT</provider>
-                            <providerConfig>
-                                <release>${java.version}</release>
-                                <arch>x64</arch> <!-- TODO select automatically, but how? -->
-                            </providerConfig>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <executions>
                     <execution>
                         <id>default-compile</id>
                         <configuration>
-                            <executable>${custom-jdk-path}/bin/javac</executable>
+                            <executable>${JAVA_HOME}/bin/javac</executable>
                             <fork>true</fork>
                         </configuration>
                     </execution>
@@ -97,7 +74,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>${custom-jdk-path}/bin/jar</executable>
+                            <executable>${JAVA_HOME}/bin/jar</executable>
                             <workingDirectory>${project.build.directory}</workingDirectory>
                             <arguments>
                                 <argument>--update</argument>
@@ -120,7 +97,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <javadocExecutable>${custom-jdk-path}/bin/javadoc</javadocExecutable>
+                    <javadocExecutable>${JAVA_HOME}/bin/javadoc</javadocExecutable>
                 </configuration>
             </plugin>
         </plugins>
